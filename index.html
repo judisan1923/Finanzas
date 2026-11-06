@@ -14,28 +14,35 @@
 <script src="https://cdn.tailwindcss.com/3.4.17"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <style>
-html,body{background:#f6f5ef;color:#1c1917;font-family:Georgia,'Times New Roman',serif;-webkit-tap-highlight-color:transparent}
-.num,button,input,select,textarea,nav{font-family:ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif}
+html,body{background:var(--bg);color:var(--tx);font-family:var(--ff);-webkit-tap-highlight-color:transparent}
+.num,button,input,select,textarea,nav{font-family:var(--fb)}
 body{padding-top:env(safe-area-inset-top)}
 nav{padding-bottom:env(safe-area-inset-bottom)}
-.card{background:#fff;border:1px solid #e7e5da;border-radius:14px}
-.inp{width:100%;border:1px solid #d6d3c4;border-radius:10px;padding:.65rem .75rem;background:#fff;font-size:16px}
-.inp:focus{outline:2px solid #15803d;outline-offset:1px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px}
+.inp{width:100%;border:1px solid var(--bd);border-radius:10px;padding:.65rem .75rem;background:var(--card);color:var(--tx);font-size:16px}
+.inp:focus{outline:2px solid var(--p);outline-offset:1px}
 .tab{display:none}.tab.on{display:block}
-.nb{flex:1;padding:.6rem 0 .5rem;font-size:11px;color:#78716c}
-.nb.on{color:#14532d;font-weight:700}
+.nb{flex:1;padding:.6rem 0 .5rem;font-size:11px;color:var(--mu)}
+.nb.on{color:var(--pd);font-weight:700}
 .nb span{display:block;font-size:20px;line-height:1.2}
 .btn{border-radius:10px;padding:.6rem 1rem;font-weight:600;font-size:14px}
 .sheet{transform:translateY(100%);transition:transform .25s}
 .sheet.open{transform:none}
 @media (prefers-reduced-motion:reduce){.sheet{transition:none}}
+:root{--p:var(--p);--pd:var(--pd);--ac:#0ea5e9;--bg:#f6f5ef;--card:#fff;--tx:#1c1917;--mu:#78716c;--bd:#e7e5da;--sec:#e7e5e4;--ff:Georgia,"Times New Roman",serif;--fb:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;--fs:16px}
+html{font-size:var(--fs)}
+.bg-white{background:var(--card)!important}
+.bg-stone-200{background:var(--sec)!important}
+.border-stone-200{border-color:var(--bd)!important}
+.text-stone-400,.text-stone-500,.text-stone-600{color:var(--mu)!important}
+.text-stone-700{color:var(--tx)!important}
 </style>
 </head>
 <body class="min-h-screen pb-28">
 
 <header class="px-4 pt-5 pb-3 max-w-2xl mx-auto flex items-center justify-between">
   <div>
-    <h1 class="text-2xl font-bold" style="color:#14532d">Mis Finanzas</h1>
+    <h1 class="text-2xl font-bold" style="color:var(--pd)">Mis Finanzas</h1>
     <p id="hSub" class="text-sm text-stone-500 num"></p>
   </div>
   <span id="offBadge" class="num text-xs px-2 py-1 rounded-full bg-stone-200 text-stone-600"></span>
@@ -56,7 +63,7 @@ nav{padding-bottom:env(safe-area-inset-bottom)}
     <div class="card p-3"><p class="text-xs text-stone-500">Ingresos</p><p id="kInc" class="text-lg font-bold text-emerald-700"></p></div>
     <div class="card p-3"><p class="text-xs text-stone-500">Gastos</p><p id="kExp" class="text-lg font-bold text-red-700"></p></div>
     <div class="card p-3"><p class="text-xs text-stone-500">Balance actual</p><p id="kBal" class="text-lg font-bold"></p></div>
-    <div class="card p-3"><p class="text-xs text-stone-500">Asignado a ahorro</p><p id="kSav" class="text-lg font-bold text-sky-700"></p></div>
+    <div class="card p-3"><p class="text-xs text-stone-500">Asignado a ahorro</p><p id="kSav" class="text-lg font-bold" style="color:var(--ac)"></p></div>
   </div>
   <div class="card p-4">
     <h2 class="font-bold mb-2">Gastos por categoría</h2>
@@ -96,14 +103,29 @@ nav{padding-bottom:env(safe-area-inset-bottom)}
       <option value="manual">Avance con aportes manuales</option>
       <option value="auto">Avance con el saldo neto positivo del mes</option>
     </select>
-    <button class="btn w-full text-white" style="background:#15803d">Crear meta</button>
+    <button class="btn w-full text-white" style="background:var(--p)">Crear meta</button>
   </form>
   <div id="goalList" class="space-y-3 num"></div>
 </section>
 
 <!-- AJUSTES -->
 <section id="t-set" class="tab space-y-3 num">
-  <h2 class="text-xl font-bold" style="font-family:Georgia,serif">Copias de seguridad</h2>
+  <h2 class="text-xl font-bold" style="font-family:var(--ff)">Diseño</h2>
+  <div class="card p-4 space-y-3">
+    <p class="text-sm font-semibold">Temas listos</p>
+    <div id="presets" class="flex flex-wrap gap-2"></div>
+    <div class="grid grid-cols-3 gap-2 text-xs">
+      <label>Principal<input id="cP" type="color" class="w-full h-10 mt-1 rounded" style="padding:0;border:0;background:none"></label>
+      <label>Acento<input id="cA" type="color" class="w-full h-10 mt-1 rounded" style="padding:0;border:0;background:none"></label>
+      <label>Fondo<input id="cB" type="color" class="w-full h-10 mt-1 rounded" style="padding:0;border:0;background:none"></label>
+    </div>
+    <label class="flex items-center justify-between text-sm">Modo oscuro<input id="cD" type="checkbox" class="w-6 h-6"></label>
+    <label class="block text-sm">Letra de títulos y textos<select id="fF" class="inp mt-1"></select></label>
+    <label class="block text-sm">Letra de números y botones<select id="fB" class="inp mt-1"></select></label>
+    <label class="block text-sm">Tamaño de letra: <b id="fsv"></b><input id="cS" type="range" min="14" max="20" step="1" class="w-full"></label>
+    <button id="thReset" class="btn w-full bg-stone-200">Restaurar diseño original</button>
+  </div>
+  <h2 class="text-xl font-bold" style="font-family:var(--ff)">Copias de seguridad</h2>
   <div class="card p-4 space-y-2">
     <button id="exJson" class="btn w-full bg-stone-900 text-white">Exportar copia (JSON)</button>
     <button id="exCsv" class="btn w-full bg-stone-200">Exportar movimientos (CSV)</button>
@@ -121,7 +143,7 @@ nav{padding-bottom:env(safe-area-inset-bottom)}
 </main>
 
 <!-- Botón añadir -->
-<button id="fab" aria-label="Agregar transacción" class="fixed right-4 z-30 w-14 h-14 rounded-full text-white text-3xl shadow-lg" style="background:#15803d;bottom:calc(76px + env(safe-area-inset-bottom))">+</button>
+<button id="fab" aria-label="Agregar transacción" class="fixed right-4 z-30 w-14 h-14 rounded-full text-white text-3xl shadow-lg" style="background:var(--p);bottom:calc(76px + env(safe-area-inset-bottom))">+</button>
 
 <nav class="fixed bottom-0 inset-x-0 bg-white border-t border-stone-200 flex z-20 max-w-2xl mx-auto">
   <button class="nb on" data-t="home"><span>◔</span>Inicio</button>
@@ -136,7 +158,7 @@ nav{padding-bottom:env(safe-area-inset-bottom)}
 <div id="sheet" class="sheet fixed inset-x-0 bottom-0 z-50 bg-white rounded-t-2xl max-w-2xl mx-auto max-h-[92vh] overflow-y-auto num" style="padding-bottom:env(safe-area-inset-bottom)">
   <form id="txForm" class="p-4 space-y-3">
     <div class="flex justify-between items-center">
-      <h2 class="text-lg font-bold" style="font-family:Georgia,serif">Nueva transacción</h2>
+      <h2 class="text-lg font-bold" style="font-family:var(--ff)">Nueva transacción</h2>
       <button type="button" id="closeSheet" class="text-2xl px-2" aria-label="Cerrar">×</button>
     </div>
     <div class="grid grid-cols-2 gap-2" id="typeSel">
@@ -153,7 +175,7 @@ nav{padding-bottom:env(safe-area-inset-bottom)}
       <input id="fDate" class="inp mt-1" type="datetime-local" required></label>
     <label class="block text-sm">Nota (opcional)
       <input id="fNote" class="inp mt-1" maxlength="80" placeholder="Ej. Almuerzo con el equipo"></label>
-    <button class="btn w-full text-white py-3" style="background:#15803d">Guardar transacción</button>
+    <button class="btn w-full text-white py-3" style="background:var(--p)">Guardar transacción</button>
   </form>
 </div>
 
@@ -236,7 +258,7 @@ function barColor(p){return p>=100?'#dc2626':p>=80?'#f59e0b':'#16a34a'}
 
 /* ---------- UI utilidades ---------- */
 var tt;
-function toast(msg,color){var t=$('toast');t.textContent=msg;t.style.background=color||'#14532d';t.classList.remove('hidden');clearTimeout(tt);tt=setTimeout(function(){t.classList.add('hidden')},3800)}
+function toast(msg,color){var t=$('toast');t.textContent=msg;t.style.background=color||'var(--p)';t.classList.remove('hidden');clearTimeout(tt);tt=setTimeout(function(){t.classList.add('hidden')},3800)}
 function showTab(n){
   document.querySelectorAll('.tab').forEach(function(s){s.classList.toggle('on',s.id==='t-'+n)});
   document.querySelectorAll('.nb').forEach(function(b){b.classList.toggle('on',b.dataset.t===n)});
@@ -250,10 +272,10 @@ function renderDash(){
   var m=stats(filter),sav=0;
   S.goals.forEach(function(g){sav+=contribIn(g,filter)});
   $('kInc').textContent=money(m.inc);$('kExp').textContent=money(m.exp);
-  $('kBal').textContent=money(m.bal);$('kBal').style.color=m.bal<0?'#b91c1c':'#14532d';
+  $('kBal').textContent=money(m.bal);$('kBal').style.color=m.bal<0?'#b91c1c':'var(--pd)';
   $('kSav').textContent=money(sav);
   document.querySelectorAll('#filters button').forEach(function(b){
-    var on=b.dataset.f===filter;b.style.background=on?'#fff':'transparent';b.style.fontWeight=on?'700':'400'});
+    var on=b.dataset.f===filter;b.style.background=on?'var(--card)':'transparent';b.style.fontWeight=on?'700':'400'});
   var names={day:'Hoy',month:'Este mes',year:'Este año',all:'Todo el histórico'};
   $('hSub').textContent=names[filter];
 
@@ -261,7 +283,7 @@ function renderDash(){
   $('donutEmpty').classList.toggle('hidden',cats.length>0);
   $('cDonut').style.display=cats.length?'block':'none';
   if(hasC){
-    var pal=['#15803d','#0ea5e9','#f59e0b','#ef4444','#8b5cf6','#ec4899','#14b8a6','#78716c'];
+    var pal=[T.p,T.ac,'#f59e0b','#ef4444','#8b5cf6','#ec4899','#14b8a6','#78716c'];
     if(donut)donut.destroy();
     donut=new Chart($('cDonut'),{type:'doughnut',
       data:{labels:cats,datasets:[{data:cats.map(function(c){return m.byCat[c]}),backgroundColor:pal,borderWidth:2}]},
@@ -269,7 +291,7 @@ function renderDash(){
         tooltip:{callbacks:{label:function(c){return c.label+': '+money(c.parsed)}}}},cutout:'62%'}});
     if(bar)bar.destroy();
     bar=new Chart($('cBar'),{type:'bar',
-      data:{labels:['Ingresos','Gastos'],datasets:[{data:[m.inc,m.exp],backgroundColor:['#15803d','#dc2626'],borderRadius:8}]},
+      data:{labels:['Ingresos','Gastos'],datasets:[{data:[m.inc,m.exp],backgroundColor:[T.p,'#dc2626'],borderRadius:8}]},
       options:{maintainAspectRatio:false,plugins:{legend:{display:false},
         tooltip:{callbacks:{label:function(c){return money(c.parsed.y)}}}},
         scales:{y:{beginAtZero:true,ticks:{callback:function(v){return money(v)}}}}}});
@@ -354,7 +376,7 @@ function renderGoals(){
   $('goalList').innerHTML=S.goals.length?S.goals.map(function(g){
     var p=goalProgress(g),pc=Math.min(100,p.pct),miss=Math.max(0,g.target-p.got);
     return'<div class="card p-3 space-y-2"><div class="flex justify-between items-start"><div><p class="font-semibold">'+esc(g.name)+'</p><p class="text-xs text-stone-500">Meta mensual: '+money(g.target)+' · '+(g.mode==='auto'?'según saldo neto':'aportes manuales')+'</p></div><button data-gd="'+g.id+'" class="text-stone-400 text-lg" aria-label="Eliminar meta">🗑</button></div>'+
-    '<div class="h-4 bg-stone-200 rounded-full overflow-hidden"><div style="width:'+pc+'%;background:'+(pc>=100?'#15803d':'#0ea5e9')+';height:100%"></div></div>'+
+    '<div class="h-4 bg-stone-200 rounded-full overflow-hidden"><div style="width:'+pc+'%;background:'+(pc>=100?'var(--p)':'var(--ac)')+';height:100%"></div></div>'+
     '<p class="text-sm">Logrado <b>'+money(p.got)+'</b> ('+Math.round(p.pct)+' %) · '+(miss?'Faltan <b>'+money(miss)+'</b>':'<b class="text-emerald-700">¡Meta cumplida! 🎉</b>')+'</p>'+
     (g.mode==='manual'?'<button data-ga="'+g.id+'" class="btn bg-sky-100 text-sky-800 w-full">Aportar</button>':'')+'</div>';
   }).join(''):'<p class="text-stone-500 text-sm">Crea tu primera meta de ahorro arriba.</p>';
@@ -381,7 +403,7 @@ $('goalList').onclick=function(e){
 function fillSelects(){
   $('fCat').innerHTML=CATS[ftype].map(function(c){return'<option>'+esc(c)+'</option>'}).join('');
   document.querySelectorAll('#typeSel button').forEach(function(b){
-    var on=b.dataset.ty===ftype,col=ftype==='gasto'?'#dc2626':'#15803d';
+    var on=b.dataset.ty===ftype,col=ftype==='gasto'?'#dc2626':'var(--p)';
     b.style.background=on?col:'#e7e5e4';b.style.color=on?'#fff':'#44403c'});
 }
 $('fPay').innerHTML=PAYS.map(function(p){return'<option>'+esc(p)+'</option>'}).join('');
@@ -403,7 +425,7 @@ $('txForm').onsubmit=function(e){
     var lim=+S.budgets[t.cat]||0;before={lim:lim,spent:stats('month').byCat[t.cat]||0};
   }
   S.tx.push(t);save();closeSheet();renderAll();
-  var msg='Transacción guardada',col='#14532d';
+  var msg='Transacción guardada',col='var(--p)';
   if(before&&before.lim){
     var p0=before.spent/before.lim*100,p1=(before.spent+amt)/before.lim*100;
     if(p1>=100){msg='⚠ Superaste el presupuesto de '+t.cat+' ('+Math.round(p1)+' %)';col='#b91c1c'}
@@ -471,6 +493,61 @@ $('filters').onclick=function(e){var b=e.target.closest('button');if(b){filter=b
 
 function renderAll(){renderDash();renderTx();renderBud();renderGoals()}
 
+/* ---------- Diseño ---------- */
+var FONTS=[
+ ['Clásica','Georgia,"Times New Roman",serif'],
+ ['Moderna','ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif'],
+ ['Redondeada','ui-rounded,"SF Pro Rounded","Trebuchet MS","Segoe UI",sans-serif'],
+ ['Elegante','"Palatino Linotype",Palatino,"Book Antiqua",serif'],
+ ['Máquina','"Courier New",ui-monospace,monospace'],
+ ['Manuscrita','"Segoe Print","Bradley Hand","Comic Sans MS",cursive'],
+ ['Condensada','"Arial Narrow","Roboto Condensed",sans-serif-condensed,Arial,sans-serif']
+];
+var PRESETS={
+ 'Bosque':{p:'#15803d',ac:'#0ea5e9',bg:'#f6f5ef',dark:false},
+ 'Océano':{p:'#0369a1',ac:'#0d9488',bg:'#eef6fa',dark:false},
+ 'Atardecer':{p:'#c2410c',ac:'#7c3aed',bg:'#fdf5ec',dark:false},
+ 'Uva':{p:'#7e22ce',ac:'#db2777',bg:'#f6f1fb',dark:false},
+ 'Minimal':{p:'#374151',ac:'#2563eb',bg:'#f4f4f5',dark:false},
+ 'Noche':{p:'#22c55e',ac:'#38bdf8',bg:'#111816',dark:true}
+};
+var TK='finanzas_tema_v1',DEF={p:'#15803d',ac:'#0ea5e9',bg:'#f6f5ef',dark:false,ff:0,fb:1,fs:16};
+var T=loadTheme();
+function loadTheme(){try{var d=JSON.parse(localStorage.getItem(TK));if(d&&d.p)return Object.assign({},DEF,d)}catch(e){}return Object.assign({},DEF)}
+function saveTheme(){try{localStorage.setItem(TK,JSON.stringify(T))}catch(e){}}
+function mix(h,t,a){var n=parseInt(h.slice(1),16),x=function(c){return Math.round(c+(t-c)*a)};
+  return'#'+((1<<24)+(x(n>>16)<<16)+(x(n>>8&255)<<8)+x(n&255)).toString(16).slice(1)}
+function applyTheme(re){
+  var r=document.documentElement.style,d=T.dark;
+  var v={'--p':T.p,'--pd':d?mix(T.p,255,.35):mix(T.p,0,.4),'--ac':T.ac,'--bg':T.bg,
+    '--card':d?'#1c2420':'#ffffff','--tx':d?'#ecefea':'#1c1917','--mu':d?'#a3aea8':'#78716c',
+    '--bd':d?'#2f3a35':'#e7e5da','--sec':d?'#33403a':'#e7e5e4',
+    '--ff':FONTS[T.ff][1],'--fb':FONTS[T.fb][1],'--fs':T.fs+'px'};
+  for(var k in v)r.setProperty(k,v[k]);
+  document.querySelector('meta[name=theme-color]').content=T.bg;
+  if(typeof Chart!=='undefined'){Chart.defaults.color=d?'#ecefea':'#44403c';Chart.defaults.borderColor=d?'#2f3a35':'#e5e7eb'}
+  if(re)renderAll();
+}
+function syncDesignUI(){
+  $('cP').value=T.p;$('cA').value=T.ac;$('cB').value=T.bg;$('cD').checked=T.dark;
+  $('fF').value=T.ff;$('fB').value=T.fb;$('cS').value=T.fs;$('fsv').textContent=T.fs+' px';
+}
+function commit(){saveTheme();syncDesignUI();applyTheme(true)}
+$('presets').innerHTML=Object.keys(PRESETS).map(function(n){
+  return'<button type="button" data-pr="'+n+'" class="btn text-white" style="background:'+PRESETS[n].p+'">'+n+'</button>'}).join('');
+var opts=FONTS.map(function(f,i){return'<option value="'+i+'">'+f[0]+'</option>'}).join('');
+$('fF').innerHTML=opts;$('fB').innerHTML=opts;
+$('presets').onclick=function(e){var b=e.target.closest('[data-pr]');if(!b)return;Object.assign(T,PRESETS[b.dataset.pr]);commit()};
+function live(id,fn){var el=$(id);el.oninput=function(){fn(this);saveTheme();applyTheme(false);$('fsv').textContent=T.fs+' px'};el.onchange=function(){renderDash()}}
+live('cP',function(el){T.p=el.value});
+live('cA',function(el){T.ac=el.value});
+live('cB',function(el){T.bg=el.value});
+live('fF',function(el){T.ff=+el.value});
+live('fB',function(el){T.fb=+el.value});
+live('cS',function(el){T.fs=+el.value});
+$('cD').onchange=function(){T.dark=this.checked;T.bg=T.dark?'#111816':'#f6f5ef';commit()};
+$('thReset').onclick=function(){T=Object.assign({},DEF);commit();toast('Diseño restaurado')};
+
 /* ---------- PWA: icono, manifest, service worker ---------- */
 function setupPWA(){
   var icons=[];
@@ -502,7 +579,7 @@ function net(){var o=navigator.onLine;$('offBadge').textContent=o?'En línea':'S
 window.addEventListener('online',function(){net();renderDash()});window.addEventListener('offline',net);
 
 /* ---------- Inicio ---------- */
-net();setupPWA();
+syncDesignUI();applyTheme(false);net();setupPWA();
 window.addEventListener('load',function(){renderAll()});
 renderAll();
 })();
